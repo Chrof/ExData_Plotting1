@@ -1,0 +1,16 @@
+# Set locale time language to English to force EN weekdays on x-axis
+Sys.setlocale("LC_TIME", "English")
+
+# Load the data
+raw_data<-read.table("./household_power_consumption.txt", header= TRUE, sep=";", na.strings="?", dec=".", stringsAsFactors=FALSE,)
+
+#Subset only data from 2007-02-01 and 2007-02-02.
+subSetData <- raw_data[raw_data$Date %in% c("1/2/2007","2/2/2007") ,]
+datetime <- strptime(paste(subSetData$Date, subSetData$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
+
+#build plot
+png(filename="plot2.png", width=480, height=480, units="px")
+
+plot(datetime, subSetData$Global_active_power, type="l", ylab="Global Active Power (kilowatts)", xlab="")
+
+dev.off()
